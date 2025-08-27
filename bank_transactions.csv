@@ -1,0 +1,5 @@
+type,amount,note
+deposit,100.00,initial funding
+withdraw,25.55,coffee & snacks
+withdraw,1000.00,too much
+deposit,50.00,payday top-up
