@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "Write tests",
+    "done": false,
+    "tags": [
+      "qa",
+      "dev"
+    ],
+    "due": "2025-09-05",
+    "created_at": "2025-08-27T18:01:10.423936"
+  },
+  {
+    "id": 2,
+    "title": "Refactor core",
+    "done": false,
+    "tags": [
+      "backend"
+    ],
+    "due": "2025-09-05",
+    "created_at": "2025-08-27T18:02:18.685462"
+  },
+  {
+    "id": 3,
+    "title": "Write tests - 2",
+    "done": true,
+    "tags": [
+      "dev",
+      "qa"
+    ],
+    "due": "2025-09-05",
+    "created_at": "2025-08-27T18:02:49.385533"
+  }
+]
