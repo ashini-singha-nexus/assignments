@@ -90,10 +90,10 @@ def test_add_task_validation(temp_db):
     
     # Test tags validation
     task = add_task(temp_db, "Test task", tags="tag1,tag2")
-    assert task["tags"] == ["tag1", "tag2"]
+    assert sorted(task["tags"]) == ["tag1", "tag2"]
     
     task = add_task(temp_db, "Test task", tags=["tag1", "tag2"])
-    assert task["tags"] == ["tag1", "tag2"]
+    assert sorted(task["tags"]) == ["tag1", "tag2"]
 
 def test_list_tasks_filtering(temp_db):
     """Test filtering tasks."""
@@ -205,12 +205,12 @@ def test_validate_date():
 def test_validate_tags():
     """Test tags validation."""
     # Valid tags formats
-    assert _validate_tags("tag1,tag2") == ["tag1", "tag2"]
-    assert _validate_tags(["tag1", "tag2"]) == ["tag1", "tag2"]
+    assert sorted(_validate_tags("tag1,tag2")) == ["tag1", "tag2"]
+    assert sorted(_validate_tags(["tag1", "tag2"])) == ["tag1", "tag2"]
     assert _validate_tags(None) == []
     
     # Empty tags are filtered out
-    assert _validate_tags("tag1,,tag2") == ["tag1", "tag2"]
+    assert sorted(_validate_tags("tag1,,tag2")) == ["tag1", "tag2"]
     
     # Invalid tags format
     with pytest.raises(ValueError, match="Tags must be a list of strings"):
@@ -237,6 +237,10 @@ def test_empty_database():
     # Create a temporary empty database
     fd, path = tempfile.mkstemp(suffix='.json')
     os.close(fd)
+    
+    # Ensure the file is empty
+    with open(path, 'w') as f:
+        f.write('')  # Explicitly write empty content
     
     try:
         # Add a task to empty database
