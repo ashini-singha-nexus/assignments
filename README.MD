@@ -23,6 +23,14 @@ med = median([1, 2, 3, 4])  # 2.5
 #### Expense Summarizer
 ```bash
 python expenses_cli.py --path expenses.csv --sort amount_desc
+
+--path PATH (required)
+--sort {amount_asc,amount_desc,category} (default amount_desc)
+--top N (optional)
+--filter "category=<name>" (optional)
+
+
+
 ```
 
 #### Bank Ledger
