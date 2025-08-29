@@ -40,11 +40,11 @@ python bank_cli.py --owner "Alice" --balance 100.00 --from-csv bank_transactions
 
 #### TODO System
 ```bash
-todo add "Write tests" --tags dev,qa --due 2025-09-05
-todo list --status open --tags dev --sort-by due
-todo complete 3
-todo update 2 --title "Refactor core" --tags backend
-todo delete 5
+python todo_cli.py add "Write tests" --tags dev,qa --due 2025-09-05
+python todo_cli.py list --status open --tags dev --sort-by due
+python todo_cli.py complete 3
+python todo_cli.py update 2 --title "Refactor core" --tags backend
+python todo_cli.py delete 5
 
 ```
 
