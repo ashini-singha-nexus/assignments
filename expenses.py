@@ -16,12 +16,12 @@ def load_expenses(path: str) -> Tuple[List[Dict], int]:
     skipped = 0
     
     try:
-        with open(path, 'r', newline='') as csvfile:
+        with open(path, 'r', newline='') as csvfile: #todo check why we are using 
             reader = csv.DictReader(csvfile)
-            
+            required_fields = ["category", "amount"]  # Required columns
             for row_num, row in enumerate(reader, start=2):  # Start at 2 (header is row 1)
                 # Validate required fields
-                if 'category' not in row or 'amount' not in row:
+                if not all(field in row and row[field].strip() for field in required_fields):
                     skipped += 1
                     continue
                 
@@ -61,6 +61,7 @@ def sum_by_category(expenses: List[Dict]) -> Dict[str, float]:
     Returns:
         Dictionary with category as key and total amount as value
     """
+    # todo: use pydentic 
     summary = {}
     for expense in expenses:
         category = expense['category']
