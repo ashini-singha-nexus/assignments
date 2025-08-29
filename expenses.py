@@ -1,6 +1,8 @@
+import logging
 import csv
 from typing import List, Dict, Tuple
 from pathlib import Path
+logger = logging.getLogger(__name__)
 
 def load_expenses(path: str) -> Tuple[List[Dict], int]:
     """
@@ -22,6 +24,7 @@ def load_expenses(path: str) -> Tuple[List[Dict], int]:
             for row_num, row in enumerate(reader, start=2):  # Start at 2 (header is row 1)
                 # Validate required fields
                 if not all(field in row and row[field].strip() for field in required_fields):
+                    logger.warning(f"Row {row_num} skipped: missing required fields")
                     skipped += 1
                     continue
                 
@@ -31,6 +34,7 @@ def load_expenses(path: str) -> Tuple[List[Dict], int]:
                     if amount <= 0:
                         raise ValueError("Amount must be positive")
                 except (ValueError, TypeError):
+                    logger.warning(f"Row {row_num} skipped: invalid amount '{row.get('amount')}'")
                     skipped += 1
                     continue
                 
@@ -43,12 +47,16 @@ def load_expenses(path: str) -> Tuple[List[Dict], int]:
                 expenses.append(expense)
                 
     except FileNotFoundError:
-        raise FileNotFoundError(f"File not found: {path}")
+        logger.error(f"File not found: {path}")
+        raise
     except PermissionError:
-        raise PermissionError(f"Permission denied: {path}")
+        logger.error(f"Permission denied: {path}")
+        raise
     except Exception as e:
-        raise Exception(f"Error reading file: {e}")
+        logger.critical(f"Unexpected error reading file {path}: {e}")
+        raise
     
+    logger.info(f"Finished loading {len(expenses)} expenses, skipped {skipped} rows")
     return expenses, skipped
 
 def sum_by_category(expenses: List[Dict]) -> Dict[str, float]:

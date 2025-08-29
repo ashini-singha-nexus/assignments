@@ -3,6 +3,8 @@ import argparse
 import sys
 from typing import Dict, List
 from expenses import load_expenses, sum_by_category
+import logging
+import logging_config
 
 def parse_filter_arg(filter_str: str) -> Dict[str, str]:
     """Parse filter argument string into filter criteria."""
@@ -54,6 +56,9 @@ def format_output(summary: Dict[str, float], sort_method: str, top_n: int = None
     return '\n'.join(lines)
 
 def main():
+
+    logger = logging.getLogger(__name__)
+    logger.info("Application started")
     parser = argparse.ArgumentParser(description='Expense Summarizer CLI')
     parser.add_argument('--path', required=True, help='Path to the CSV file')
     parser.add_argument('--sort', choices=['amount_asc', 'amount_desc', 'category'], 
